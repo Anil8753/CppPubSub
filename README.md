@@ -4,6 +4,7 @@ One can subscribe for a chanel and another can publish the notification on the s
 
 Note: It has dependency on boost. Please download boost library and set the boost path in project settings (CppPubSub.vcxproj).
 
+Full sample code is available in Source.cpp
 Usage:
 
         // you should create a singleton object of NotificationService class, make it accessible throughout your application. 
