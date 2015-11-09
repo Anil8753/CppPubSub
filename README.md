@@ -1,8 +1,9 @@
 # CppPubSub
-boost based Publisher/Subscriber framework in C++
-One can subscribe for a chanel and another can publish the notification on the same chanel.
+Boost based Publisher/Subscriber framework in C++.
+One can subscribe for a channel and another can publish the notification on the same channel.
 
 Note: It has dependency on boost. Please download boost library and set the boost path in project settings (CppPubSub.vcxproj).
+I tested on Windows only, but it should be portable to other platform as well.
 
 Full sample code is available in Source.cpp
 Usage:
