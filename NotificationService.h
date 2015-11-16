@@ -13,11 +13,10 @@ typedef boost::signals2::signal<NotificationHandler> SIGNAL;
 typedef pair<SIGNAL*, const NotificationData> SignalAndNotificationPair;
 typedef vector<SignalAndNotificationPair> QueuedNotificationVector;
 
-class NotificationService : public INotificationService
+class WXEXPORT NotificationService : public INotificationService
 {
 public:
     static INotificationService* GetNotificationService();
-    NotificationService();
     ~NotificationService();
 
     void Publish(const string& channel, const NotificationData& notificationData);
@@ -25,6 +24,7 @@ public:
     void Unsubscribe(SubscriptionToken& subscriptionToken);
 
 private:
+    NotificationService();
     void NotificationLoop();
     void FlushQueuedNotifications();
     void QueueNotification(SIGNAL* pSignal, const NotificationData& notificationData);
@@ -33,7 +33,7 @@ private:
     mutex m_mutexQueuedNotificationVector;
     mutex m_mutexNotificationLoop;
     condition_variable m_cvPauseFlushThread;
-    bool m_bStopFlushThread;
+    bool m_bShutdown;
     thread m_FlushNotificationsThread;
 
     // Queue of Notifications

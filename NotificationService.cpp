@@ -1,4 +1,5 @@
 #include "NotificationService.h"
+#include "MemLeakDetect.h"
 
 NotificationService* NotificationService::s_pNotificationService;
 
@@ -14,13 +15,13 @@ INotificationService* NotificationService::GetNotificationService()
 
 NotificationService::NotificationService()
 {
-    m_bStopFlushThread = false;
+    m_bShutdown = false;
     m_FlushNotificationsThread = std::thread(&NotificationService::NotificationLoop, this);
 }
 
 NotificationService::~NotificationService()
 {
-    m_bStopFlushThread = true;
+    m_bShutdown = true;
     m_cvPauseFlushThread.notify_one();
     m_FlushNotificationsThread.join();
 
@@ -74,10 +75,8 @@ void NotificationService::NotificationLoop()
             m_cvPauseFlushThread.wait(loop_lock);
         }
 
-        if (m_bStopFlushThread)
-        {
+        if (m_bShutdown)
             break;
-        }
 
         FlushQueuedNotifications();
     }
@@ -99,8 +98,13 @@ void NotificationService::FlushQueuedNotifications()
     // Since we're looping over the copy we just made, new Notifications won't affect us.
     for (const SignalAndNotificationPair & signalAndPair : vecQueuedNotificationVector)
     {
+        if (m_bShutdown)
+            break;
+
         SIGNAL* pSignal = signalAndPair.first;
-        (*pSignal)(signalAndPair.second);
+
+        if (pSignal)
+            (*pSignal)(signalAndPair.second);
     }
 }
 
