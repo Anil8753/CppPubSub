@@ -80,7 +80,7 @@ private:
 
 int main()
 {
-    INotificationServicePtr     pNotificationService(new NotificationService());
+    INotificationServicePtr     pNotificationService(NotificationService::GetNotificationService());
     SubscriberClass             objSubscriberClass(pNotificationService);
     PublisherClass              objPublisherClass(pNotificationService);
 

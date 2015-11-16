@@ -1,5 +1,4 @@
 #include "NotificationService.h"
-#include "MemLeakDetect.h"
 
 NotificationService* NotificationService::s_pNotificationService;
 
