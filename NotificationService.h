@@ -13,7 +13,7 @@ typedef boost::signals2::signal<NotificationHandler> SIGNAL;
 typedef pair<SIGNAL*, const NotificationData> SignalAndNotificationPair;
 typedef vector<SignalAndNotificationPair> QueuedNotificationVector;
 
-class WXEXPORT NotificationService : public INotificationService
+class NotificationService : public INotificationService
 {
 public:
     static INotificationService* GetNotificationService();
